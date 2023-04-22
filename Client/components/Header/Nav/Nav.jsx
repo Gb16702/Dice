@@ -10,7 +10,7 @@ const Nav = () => {
                     <NavItems text = "Random Games" />
                 </li>
             </ul>
-            <ul className="w-[800px] h-full flex items-center">
+            <ul className="w-[600px] h-full flex items-center">
                 <li className="border-r border-zinc-700/70 pr-5">
                     <NavItems text = "Accueil" />
                     <NavItems text = "Jeux" />

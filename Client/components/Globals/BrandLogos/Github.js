@@ -6,7 +6,7 @@ const Github = () =>  {
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
-          class="icon">
+          className="icon">
           <path
             fillRule="evenodd"
             clipRule="evenodd"
