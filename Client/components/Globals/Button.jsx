@@ -1,6 +1,7 @@
-const Button = ({ text, ...props }) => (
+const Button = ({ text, children, ...props }) => (
     <button {...props}>
         {text}
+        {children}
     </button>
 )
 

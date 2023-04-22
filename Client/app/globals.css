@@ -5,3 +5,7 @@
 .icon {
   @apply max-sm:h-5 max-sm:w-5 sm:w-5 sm:h-5 fill-zinc-500 transition group-hover:fill-zinc-600 dark:group-hover:fill-zinc-300 dark:fill-zinc-500
 }
+
+.shadowCustom {
+  box-shadow: 0 0 34px -6px #603AD9;
+}
