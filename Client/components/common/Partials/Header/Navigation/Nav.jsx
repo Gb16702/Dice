@@ -1,6 +1,6 @@
-import Discord from "@/components/common/Global/BrandLogos/Discord"
-import Github from "@/components/common/Global/BrandLogos/Github"
+import Discord from "@/components/common/Global/Icons/BrandLogos/Discord"
 import NavItem from "./NavItem/NavItem"
+import Github from "@/components/common/Global/Icons/BrandLogos/Github"
 
 const Nav = () => {
     return <nav className="w-[1500px] bg-transparent h-full flex flex-row justify-between">
