@@ -3,11 +3,13 @@ import Glass from "@/components/common/Global/Icons/HeroIcons/Glass"
 import Button from "@/components/common/Global/Button"
 import Squares from "@/components/common/Global/Squares"
 import Title from "@/components/common/Partials/Title"
+import style from "@/styles/heroBackground.module.css"
+import Header from "@/components/common/Partials/Header/Header"
 
 const Hero = () => {
     return <>
-        <Preloader />
-        <section className="flex items-center justify-center  h-[100vh]">
+        {/* <Preloader /> */}
+        <section className={`${style.heroSection} flex items-center justify-center  h-[100vh] relative overflow-hidden`}>
             <div className="w-[70%] flex items-center justify-center flex-col">
                 <Title />
                 <div className="HeroBottom flex flex-row space-x-5 mt-[60px] relative">
@@ -18,8 +20,8 @@ const Hero = () => {
                         <span className="font-normal text-sm px-2 rounded border border-zinc-700/60">ALT S</span>
                     </Button>
                 </div>
-            </div>
             <Squares />
+            </div>
         </section>
     </>
 }
