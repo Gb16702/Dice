@@ -30,7 +30,7 @@ const Contact = () => {
                 <input className="border border-zinc-700/90 rounded w-[75%] px-4 py-2  outline-none" type="text" name="username" placeholder="Votre adresse mail" />
             </div>
             <div className=' w-full flex items-center justify-center'>
-                <Select options = {categories} placeholder = "Choisissez un type de problème" className="border border-zinc-700/90 rounded w-[75%] px-4 py-2 outline-none bg-red-400"/>
+                <Select options = {categories} placeholder = "Choisissez un type de problème" className="border border-zinc-700/90 rounded w-[75%] px-4 py-2 outline-none"/>
             </div>
             <div className='w-full flex items-center justify-center'>
                 <textarea className="border border-zinc-700/90 rounded w-[75%] px-4 py-2 outline-none" type="text" name="username" placeholder="Votre message" />

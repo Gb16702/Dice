@@ -1,6 +1,6 @@
 const SecondSlide = () => {
-    return  <section   ion className='h-[100vh] bg-white'>
-                
+    return  <section className='h-[100vh] bg-white'>
+
 
             </section>
 }
