@@ -5,7 +5,13 @@ const roleSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    default : {
+        type : Boolean,
+        default : false
     }
 })
 
-module.exports = mongoose.model("Role", roleSchema)
+const Role = mongoose.models.Role || mongoose.model("Role", roleSchema)
+
+module.exports = Role

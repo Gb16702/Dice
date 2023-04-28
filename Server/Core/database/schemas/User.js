@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const getImageDirectory = require('../../utils/getImageDirectory');
 
-const defaultAvatars = getImageDirectory();
+const minPasswordLength = 6;
+const maxPasswordLength = 32;
+
+const defaultAvatarDirectory = getImageDirectory();
 
 const userSchema  = new mongoose.Schema({
     username : {
@@ -16,8 +19,8 @@ const userSchema  = new mongoose.Schema({
     password : {
         type: String,
         required: true,
-        minLenght : 6,
-        maxLength : 32,
+        minLenght: minPasswordLength,
+        maxLength: maxPasswordLength
     },
     roles : {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,7 +29,7 @@ const userSchema  = new mongoose.Schema({
     },
     avatar : {
         type: String,
-        default: defaultAvatars[Math.floor(Math.random() * defaultAvatars.length)],
+        default: defaultAvatarDirectory[Math.floor(Math.random() * defaultAvatarDirectory.length)],
         required : false,
     },
     status : {
@@ -40,4 +43,6 @@ const userSchema  = new mongoose.Schema({
 
 }, { timestamps: true })
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+
+module.exports = User;

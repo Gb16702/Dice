@@ -1,4 +1,4 @@
-const mongose = require('mongoose')
+const mongoose = require('mongoose')
 
 const status = Object.freeze({
     Online : "En ligne",
@@ -6,16 +6,17 @@ const status = Object.freeze({
     Inactive : "Inactif"
 })
 
-const statusSchema = new mongose.Schema({
+const statusSchema = new mongoose.Schema({
     state : {
         type: String,
         enum : Object.values(status),
-        default: status.Offline
+        default: status.Online
     },
-    user : {
-        type: mongose.Schema.Types.ObjectId,
-        ref: "User",
+    default : {
+        type : Boolean,
+        default : false
     }
 })
 
-module.exports = mongose.model('Status', statusSchema)
+const Status = mongoose.models.Status || mongoose.model("Status", statusSchema)
+module.exports = Status
