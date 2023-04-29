@@ -7,7 +7,6 @@ module.exports = async userData => {
         const role = await Role.findOne({name : userData.role })
         if(!role) throw new Error(`Le role ${userData.role} n'existe pas`)
 
-
         const isExistingUser = await User.findOne({username: userData.username})
         if(isExistingUser) {
             throw new Error(`L'utilisateur ${userData.username} existe déjà`)

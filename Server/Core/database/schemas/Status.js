@@ -15,7 +15,7 @@ const statusSchema = new mongoose.Schema({
     default : {
         type : Boolean,
         default : false
-    }
+    },
 })
 
 const Status = mongoose.models.Status || mongoose.model("Status", statusSchema)
