@@ -1,5 +1,6 @@
 const express = require('express')
-global.dotenv = require('dotenv').config()
+const path = require('path')
+global.dotenv = require('dotenv').config({path : path.join(__dirname, "../../.env")})
 const db = require('./database/db')
 const createRole = require('./utils/createRole')
 const createUser = require('./utils/createUser')
@@ -13,13 +14,15 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 })
 
-const authMiddleware = (req, res, next) => {
-    console.log(req.headers);
-}
-
-app.get('/user', authMiddleware, async (req, res) => {
+app.get('/user', async (req, res) => {
     const users = await User.find({}).populate('status')
     res.send(users)
+})
+
+app.get('/user/:id', async (req, res) => {
+    const matchedUser = await User.findOne({_id : req.params.id})
+    if(!matchedUser) return res.status(404).send("Utilisateur introuvable")
+    res.send(matchedUser)
 })
 
 db.connect();
@@ -27,7 +30,7 @@ db.connect();
 createRole();
 createStatus();
 
-const insertUser = async (user) => {
+const insertUser = async () => {
     const onlineStatus = await Status.findOne({state : "En ligne"})
 
     for (let i = 0; i < 2; i++) {
@@ -41,7 +44,6 @@ const insertUser = async (user) => {
             bio : "Je suis un test"
         })
     }
-
 }
 
 insertUser();

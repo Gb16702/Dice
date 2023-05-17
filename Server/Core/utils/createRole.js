@@ -6,7 +6,7 @@ module.exports = async () => {
         {name : "Administrateur", default : false},
         {name : "Rédacteur", default : false},
         {name : "Contributeur", default : false},
-        {name : "Lecteur", default : true},
+        {name : "Utilisateur", default : true},
     ])
 
     try {
