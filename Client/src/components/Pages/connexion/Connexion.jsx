@@ -39,12 +39,12 @@ const Connexion = () => {
 
     return <section className="h-[100vh] flex items-center justify-center bg-white relative">
         <div className="flex items-center justify-center flex-col w-[1000px]">
-            <div className="w-[330px] flex items-center flex-col ">
+            <div className="w-[330px] flex items-center flex-col">
             <h1 className="font-bold text-[26px] py-[5px] text-center pb-[30px]">Content de te revoir ! </h1>
 
             <ConnexionForm />
 
-            <h3 className="mt-3">Pas encore de compte ? <span className="text-[#603AD9]">Inscris-toi</span></h3>
+            <h3 className="mt-3">Pas encore de compte ? <Link href = "/inscription" className="text-[#603AD9]">Inscris-toi</Link></h3>
 
             <div className="w-full flex flex-row items-center justify-center border-none text-xs font-medium py-6 after:border-b-2 before:border-b-2 before:w-[100%] before:mr-4 after:w-[100%] after:ml-4">
                 <span className="text-center flex-1/5 mx-0 uppercase">ou</span>
