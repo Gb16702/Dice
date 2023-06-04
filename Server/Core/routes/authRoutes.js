@@ -13,8 +13,10 @@ router.post("/api/login", async (req, res) => {
     const { email, password } = req.body
     console.log(req.body);
 
-    const errors = formValidation({email, password})
-    // if(Object.keys(errors).length > 0) return res.status(400).send(errors)
+    // const errors = formValidation({email, password})
+    // console.log(errors);
+    // if(Object.keys(errors).length > 0) return res.status(400).send('Test')
+    //! A regarder
 
     console.log("TEST");
 

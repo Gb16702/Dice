@@ -17,7 +17,7 @@ const Connexion = () => {
     return <section className="h-[100vh] flex items-center justify-center bg-white relative">
         <div className="flex items-center justify-center flex-col w-[1000px]">
             <div className="w-[330px] flex items-center flex-col">
-            <h1 className="font-bold text-[26px] py-[5px] text-center pb-[30px]">Content de te revoir ! </h1>
+            <h1 className="font-semibold text-[26px] py-[5px] text-center text-zinc-900/[.80] pb-[30px]">Connecte-toi</h1>
 
             <ConnexionForm />
 
