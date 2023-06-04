@@ -9,8 +9,11 @@
   "author": "Panoptès",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mongoose": "^7.2.2",
     "nodemon": "^2.0.22"
   }
 }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const getImageDirectory = require('../../utils/getImageDirectory');
 
 const minPasswordLength = 6;
-const maxPasswordLength = 32;
+const maxPasswordLength = 48;
 
 const defaultAvatarDirectory = getImageDirectory();
 
@@ -19,7 +19,6 @@ const userSchema  = new mongoose.Schema({
         trim: true,
         match : /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     },
-
     password : {
         type: String,
         required: true,
@@ -44,7 +43,6 @@ const userSchema  = new mongoose.Schema({
         type: String,
         maxlength: 255,
     }
-
 }, { timestamps: true })
 
 userSchema.index({email : 1})

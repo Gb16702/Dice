@@ -20,16 +20,45 @@ export const authOptions = {
             clientSecret : getDiscordCredentials().clientSecret
         }),
         CredentialsProvider({
+
             async authorize(credentials) {
+                console.log(credentials);
+                try {
+                const res = await fetch("http://localhost:8000/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body : JSON.stringify({
+                        email: credentials.email,
+                        password: credentials.password
+                    })
+                })
 
-
+                const {userWithoutPassword} = await res.json();
+                console.log(userWithoutPassword);
+                return {
+                    id: userWithoutPassword._id,
+                    username: userWithoutPassword.username,
+                    email: userWithoutPassword.email,
+                    roles: userWithoutPassword.roles,
+                };
             }
+            catch(e) {
+                console.log(e);
+                throw new Error(e.message ?? "Une erreur est survenue")
+            }
+        }
         })
     ],
-    callbacks : {
+    callbacks: {
+        async jwt({ token, user }) {
+          return { ...token, ...user };
+        },
 
-        redirect() {
-            return "/";
-        }
-    }
+        async session({ session, token }) {
+          session.user = token;
+          return session;
+        },
+      }
 }

@@ -7,8 +7,15 @@ const createUser = require('./utils/createUser')
 const createStatus = require('./utils/createStatus')
 const Status = require('./database/schemas/Status')
 const User = require('./database/schemas/User')
+const userRoute = require('./routes/userRoutes')
+const roleRoute = require('./routes/roleRoutes')
+const authRoute = require('./routes/authRoutes')
+
+const cors = require('cors')
 
 const app = express()
+
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello World');
@@ -24,6 +31,11 @@ app.get('/user/:id', async (req, res) => {
     if(!matchedUser) return res.status(404).send("Utilisateur introuvable")
     res.send(matchedUser)
 })
+
+app.use(express.json());
+app.use(userRoute);
+app.use(roleRoute);
+app.use(authRoute);
 
 db.connect();
 

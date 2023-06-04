@@ -1,38 +1,15 @@
 "use client";
 
 import Button from "@/src/components/common/Global/Button"
-import { signIn } from "next-auth/react"
-import { useState } from "react";
+
 import {useSession} from "next-auth/react";
-import Google from "../../common/Global/Icons/BrandLogos/Google";
-import Discord from "../../common/Global/Icons/BrandLogos/Discord";
+
 import ConnexionForm from "../../common/Global/Forms/ConnexionForm";
 import Link from "next/link";
+import ProvidersButtonsBloc from "../../common/Global/ProvidersButtonBloc";
+import LogoutButton from "../../common/Global/LogoutButton";
 
 const Connexion = () => {
-
-    const [isLoadingGoogle, setIsLoadingGoogle]  = useState(false);
-    const [isLoadingDiscord, setIsLoadingDiscord]  = useState(false);
-
-    const loginWithGoogle = async () => {
-        try  {
-            setIsLoadingGoogle(true);
-            await signIn("google")
-        }
-        catch(e) {
-            console.error(e);
-        }
-    }
-
-    const loginWithDiscord = async () => {
-        try {
-            setIsLoadingDiscord(true);
-            await signIn("discord");
-        }
-        catch(e) {
-            console.error(e);
-        }
-    }
 
     const {data:session} = useSession();
     console.log(session?.user);
@@ -51,18 +28,7 @@ const Connexion = () => {
             </div>
 
 
-            <Button className="bg-white border border-[#c2c8d0] text-white w-full h-[50px] gap-4 flex items-center  text-sm disabled:opacity-50 disabled:pointer-events-none px-3 rounded-sm mt-2 hover:bg-zinc-200/[.60] transition duration-200" onClick={loginWithGoogle}>
-                <Google  />
-                <h3 className="text-zinc-500 text-base font-normal">
-                    {isLoadingGoogle ? "Connexion en cours..." : "Continuer avec Google"}
-                </h3>
-            </Button>
-            <Button className="bg-white border border-[#c2c8d0] text-white w-full h-[50px] gap-4 flex items-center  text-sm  disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 rounded-sm hover:bg-zinc-200/[.60] transition duration-200" onClick={loginWithDiscord}>
-                <Discord color = {"#5865F2"}  />
-                <h3 className="text-zinc-500 text-base font-normal">
-                    {isLoadingDiscord ? "Connexion en cours..." : "Continuer avec Discord"}
-                </h3>
-            </Button>
+            <ProvidersButtonsBloc />
             </div>
         </div>
         <div className="absolute bottom-[30px] flex flex-row gap-3">
@@ -75,6 +41,8 @@ const Connexion = () => {
             <Link href = "/" className="text-vprimary">
                 <h4>Nos conditions</h4>
             </Link>
+            |
+            <LogoutButton />
         </div>
     </section>
 }

@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 
 const AuthProvider = ({children})  => {
 
-    return  <SessionProvider refetchInterval={5 * 60}>
+    return  <SessionProvider>
                 {children}
             </SessionProvider>
 }
