@@ -4,10 +4,6 @@ import GoogleProvider from "next-auth/providers/google"
 import DiscordProvider from "next-auth/providers/discord"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getGoogleCredentials, getDiscordCredentials } from "./getProvidersCredentials"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/router"
-import { handleGoogleSignIn } from "./handleGoogleLogin"
-import { redirect } from "next/dist/server/api-utils"
 
 export const authOptions = {
     session : {

@@ -60,30 +60,4 @@ router.get("/api/users", async (req, res) => {
         res.status(500).send(`Erreur : ${e}`)
     }
 })
-
-router.post("/api/google-login", async (req, res) => {
-    console.log("POST-GOOGLE");
-    try {
-        const {email, name} = req.body;
-        console.log(req.body);
-
-        const defaultRole = await Role.findOne({default : true})
-
-        let userRole = defaultRole._id
-
-        const user = new User({
-            username: name,
-            email,
-            role : userRole
-        })
-
-        await user.save();
-
-        res.status(201).send({user})
-    }
-    catch(e) {
-        console.log(e);
-    }
-})
-
 module.exports = router;
