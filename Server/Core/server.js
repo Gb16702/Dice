@@ -5,11 +5,15 @@ const db = require('./database/db')
 const createRole = require('./utils/createRole')
 const createUser = require('./utils/createUser')
 const createStatus = require('./utils/createStatus')
+const createAdminToken = require('./utils/createAdminToken')
+
 const Status = require('./database/schemas/Status')
 const User = require('./database/schemas/User')
+
 const userRoute = require('./routes/userRoutes')
 const roleRoute = require('./routes/roleRoutes')
 const authRoute = require('./routes/authRoutes')
+const adminRoute = require('./routes/adminRoutes')
 
 const cors = require('cors')
 
@@ -36,29 +40,13 @@ app.use(express.json());
 app.use(userRoute);
 app.use(roleRoute);
 app.use(authRoute);
+app.use(adminRoute);
 
 db.connect();
 
 createRole();
 createStatus();
-
-const insertUser = async () => {
-    const onlineStatus = await Status.findOne({state : "En ligne"})
-
-    for (let i = 0; i < 2; i++) {
-        createUser({
-            username : "Test" + i,
-            email : "Test" + i + "@gmail.com",
-            password : "Test1234",
-            role : "Lecteur",
-            avatar : "Test",
-            status : onlineStatus._id,
-            bio : "Je suis un test"
-        })
-    }
-}
-
-insertUser();
+createAdminToken();
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port' + process.env.PORT);

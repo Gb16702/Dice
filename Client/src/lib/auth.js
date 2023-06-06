@@ -1,7 +1,13 @@
+"use client";
+
 import GoogleProvider from "next-auth/providers/google"
 import DiscordProvider from "next-auth/providers/discord"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getGoogleCredentials, getDiscordCredentials } from "./getProvidersCredentials"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
+import { handleGoogleSignIn } from "./handleGoogleLogin"
+import { redirect } from "next/dist/server/api-utils"
 
 export const authOptions = {
     session : {
@@ -35,14 +41,8 @@ export const authOptions = {
                     })
                 })
 
-                const {userWithoutPassword} = await res.json();
-                console.log(userWithoutPassword);
-                return {
-                    id: userWithoutPassword._id,
-                    username: userWithoutPassword.username,
-                    email: userWithoutPassword.email,
-                    roles: userWithoutPassword.roles,
-                };
+                const {userWithoutPassword : {_id : id, username, email, roles}} = await res.json();
+                return {id, username, email, roles}
             }
             catch(e) {
                 console.log(e);
@@ -52,13 +52,21 @@ export const authOptions = {
         })
     ],
     callbacks: {
-        async jwt({ token, user }) {
-          return { ...token, ...user };
+        async jwt({ token, user, trigger, session }) {
+            if(trigger === "update") {
+                return {...token, ...session.user}
+            }
+            return {...token, ...user}
         },
 
         async session({ session, token }) {
           session.user = token;
           return session;
         },
-      }
+
+        async redirect() {
+            return "/"
+        }
+
+      },
 }

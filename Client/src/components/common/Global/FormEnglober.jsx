@@ -1,0 +1,1 @@
+export const FormEnglober = ({children}) => <div className="w-[570px] py-[30px] bg-white rounded-[10px] px-[70px] flex items-center flex-col justify-center shadow-[0_4px_6px_0px_#dedede]">{children}</div>

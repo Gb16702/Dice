@@ -23,7 +23,7 @@ const ConnexionForm = () => {
         try {
             setLoading(true)
             const response = await signIn("credentials", {
-                redirect: true,
+                redirect: "/",
                 email : data.email,
                 password : data.password,
                 callbackUrl : url
@@ -60,7 +60,7 @@ const ConnexionForm = () => {
 
 
     return <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <Input className="bg-white border border-[#c2c8d0] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-sm font-normal text-zinc-800 focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre adresse mail"
+        <Input className="bg-white border border-[#e0e0e2] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-zinc-800 focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre adresse mail"
             {...register("email", {
                 required : {
                     value : true,
@@ -74,7 +74,7 @@ const ConnexionForm = () => {
         />
 
         <div className="relative">
-        <Input type={visible ? "text" : "password"} className="bg-white border border-[#c2c8d0] w-full h-[50px] gap-4 flex items-center disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 outline-none rounded-sm font-normal text-zinc-800 text-base focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre mot de passe"
+        <Input type={visible ? "text" : "password"} className="bg-white border border-[#e0e0e2] w-full h-[50px] gap-4 flex items-center disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 outline-none rounded-[5px] font-normal text-zinc-800 text-base focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre mot de passe"
             {...register("password", { required: true })}
             />
              {visible ? (

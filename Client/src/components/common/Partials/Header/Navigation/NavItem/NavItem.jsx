@@ -5,8 +5,9 @@ import { usePathname } from 'next/navigation'
 
 const NavItem = ({text, link, isLogo = false}) => {
     const path = usePathname();
+
     return  <span className="px-[12px]">
-                <Link href = {link} className={`text-sm ${path === link || isLogo ? "text-vprimary" : "text-[#DFE0D7]"}`}>{text}</Link>
+                <Link href = {link} className={`text-sm ${path === link || isLogo ? "text-vprimary" : path === "/inscription" || path === "/connexion" ? "text-[#71717A]" : "text-[#DFE0D7]" }`}>{text}</Link>
             </span>
 }
 

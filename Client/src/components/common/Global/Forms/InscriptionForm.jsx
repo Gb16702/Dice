@@ -6,14 +6,18 @@ import { useForm } from "react-hook-form";
 import generateSecurePassword from "@/src/lib/generateSecurePassword";
 import { resolver } from "@/src/lib/resolver";
 import Locker from "../Icons/HeroIcons/Locker";
-import {useEffect, useState} from "react"
+import {use, useEffect, useState} from "react"
 import { ClosedEye, OpenEye } from "../Icons/HeroIcons/Eyes";
+import {useRouter} from "next/navigation";
 
 const InscriptionForm = () => {
-    const {register, handleSubmit, setValue, watch, formState: {errors}} = useForm({resolver});
+    const {register, handleSubmit, setValue, watch, formState: {errors}} = useForm();
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false)
     const [focused, setFocused] = useState(false)
+
+    const router = useRouter();
+
 
     const onSubmit = async data => {
         try {
@@ -28,14 +32,15 @@ const InscriptionForm = () => {
                 })
                 console.log(data);
 
-                if(response.ok)
-                        console.log("Utilisateur créé avec succès");
+                if(response.ok) {
+                    router.push("/connexion");
+                }
                 else
                         console.log("Une erreur est survenue");
         }
 
         catch(e) {
-                console.log(e.response.data.message);
+                console.log(e);
         }
 
         finally {
@@ -62,11 +67,11 @@ const InscriptionForm = () => {
     }
 
     return  <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                <Input className="bg-white border border-[#c2c8d0] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-sm font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder="Nom d'utilisateur"
+                <Input className="bg-white border border-[#dbdcde] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder="Nom d'utilisateur"
                     {...register("username")}
             />
                 {errors.username && <p className="text-red-500">{errors.username}</p>}
-            <Input className="bg-white border border-[#c2c8d0] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-sm font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Adresse mail"
+            <Input className="bg-white border border-[#dbdcde] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Adresse mail"
                     {...register("email")}
             />
             {errors.email && <p className="text-red-500">{errors.email}</p>}
@@ -74,7 +79,7 @@ const InscriptionForm = () => {
             <div className="relative">
       <Input
         type={visible ? "text" : "password"}
-        className="bg-white border border-[#c2c8d0] w-full h-[50px] gap-4 flex items-center text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-sm font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200"
+        className="bg-white border border-[#dbdcde] w-full h-[50px] gap-4 flex items-center text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200"
         placeholder="Mot de passe"
         {...register("password")}
       />
@@ -100,11 +105,11 @@ const InscriptionForm = () => {
     </div>
                 {errors.password && <p className="text-red-500">{errors.password}</p>}
 
-            <Input type={visible ? "text" : "password"} className="bg-white border border-[#c2c8d0]  w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-sm font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Confirmer le mot de passe"
+            <Input type={visible ? "text" : "password"} className="bg-white border border-[#dbdcde]  w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-black focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Confirmer le mot de passe"
                     {...register("confirmPassword")}
             />
                 {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
-            <Button className = "bg-vtertiary text-white w-full h-[50px] gap-4 flex items-center justify-center text-base font-medium transition-color disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 rounded-sm">
+            <Button className = "bg-vtertiary text-white w-full h-[50px] gap-4 flex items-center justify-center text-base font-medium transition-color disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 rounded-[5px]">
                 {loading ? "Inscription en cours..." : "S'inscrire"}
             </Button>
 

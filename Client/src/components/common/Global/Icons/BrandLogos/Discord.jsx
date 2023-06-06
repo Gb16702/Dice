@@ -1,7 +1,8 @@
 import Link from "next/link"
 import styles from "@/styles/icon.module.css"
+import {BsDiscord} from "react-icons/bs"
 
-const Discord = ({color}) => {
+export const Discord = ({color}) => {
 
     const defaultFillColor = "#9999f";
 
@@ -12,4 +13,4 @@ const Discord = ({color}) => {
     )
 }
 
-export default Discord;
+export const DiscordSecondary = props => <BsDiscord {...props} />

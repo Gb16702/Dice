@@ -20,10 +20,10 @@ router.post("/api/login", async (req, res) => {
 
     console.log("TEST");
 
-    const user = await User.findOne({email})
+    const user = await User.findOne({email}).populate('roles', 'name grade')
 
     if(user) {
-        const {password, ...userWithoutPassword} = user.toObject();
+        const {userWithPassword, ...userWithoutPassword} = user.toObject();
         console.log(userWithoutPassword);
          return res.status(200).send({
             userWithoutPassword,

@@ -6,6 +6,10 @@ const roleSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    grade : {
+        type : Number,
+        required : true
+    },
     default : {
         type : Boolean,
         default : false

@@ -2,12 +2,12 @@ const fs = require('fs')
 const path = require('path')
 
 const getImageDirectory = () => {
-    let defaultAvatars = new Set();
+    let defaultAvatars = []
 
     const directory = path.join(__dirname, "../../public/images")
 
     fs.readdirSync(directory).forEach(file => {
-        defaultAvatars.add(file)
+        defaultAvatars.push(file)
     })
 
     return defaultAvatars;

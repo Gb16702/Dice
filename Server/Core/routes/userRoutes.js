@@ -9,25 +9,33 @@ const router = express.Router();
 
 router.post("/api/users", async (req, res) => {
 
+    const {username, email, password} = req.body;
+
     const defaultRole = await Role.findOne({default: true})
 
     let userRole = defaultRole._id
 
-    if(req.body.email === process.env.FOUNDER) {
+    if(email === process.env.FOUNDER) {
         const founderRole = await Role.findOne({name : "Fondateur"})
         userRole = founderRole._id
     }
 
-    try {
-        let password = req.body.password
+    const slug = username
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(" ").join("-")
 
-        if(password)
-            password = (await bcrypt.hash(req.body.password, 12)).slice(0, 48);
+    try {
+        let userPassword = password
+
+        if(userPassword)
+            userPassword =(await bcrypt.hash(password, 12)).slice(0, 48);
 
         const user = new User({
-            username: req.body.username,
-            email:req.body.email,
-            password,
+            username,
+            slug,
+            email,
+            password : userPassword,
             roles : [userRole],
         })
 
@@ -44,12 +52,37 @@ router.post("/api/users", async (req, res) => {
 router.get("/api/users", async (req, res) => {
     try {
         const users = await User.find({})
-        res.status(200).send(users)
+        res.send(users)
     }
 
     catch(e) {
         console.log(e);
         res.status(500).send(`Erreur : ${e}`)
+    }
+})
+
+router.post("/api/google-login", async (req, res) => {
+    console.log("POST-GOOGLE");
+    try {
+        const {email, name} = req.body;
+        console.log(req.body);
+
+        const defaultRole = await Role.findOne({default : true})
+
+        let userRole = defaultRole._id
+
+        const user = new User({
+            username: name,
+            email,
+            role : userRole
+        })
+
+        await user.save();
+
+        res.status(201).send({user})
+    }
+    catch(e) {
+        console.log(e);
     }
 })
 

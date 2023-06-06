@@ -9,14 +9,21 @@ const defaultAvatarDirectory = getImageDirectory();
 const userSchema  = new mongoose.Schema({
     username : {
         type: String,
+        required: true
+    },
+    slug : {
+        type: String,
         required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+        index: true
     },
     email : {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
-        trim: true,
         match : /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     },
     password : {
@@ -28,20 +35,20 @@ const userSchema  = new mongoose.Schema({
     roles : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
-        required : true,
+        required : true
     },
     avatar : {
         type: String,
-        default: defaultAvatarDirectory[Math.floor(Math.random() * defaultAvatarDirectory.length)],
-        required : false,
+        required : true,
+        default : defaultAvatarDirectory[Math.floor(Math.random() * defaultAvatarDirectory.length)]
     },
     status : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Status',
+        ref: 'Status'
     },
     bio : {
         type: String,
-        maxlength: 255,
+        maxlength: 255
     }
 }, { timestamps: true })
 
