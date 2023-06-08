@@ -37,8 +37,8 @@ export const authOptions = {
                     })
                 })
 
-                const {userWithoutPassword : {_id : id, username, email, roles}} = await res.json();
-                return {id, username, email, roles}
+                const {userWithoutPassword : {_id : id, username, email, roles, slug, avatar}} = await res.json();
+                return {id, username, email, roles, slug, avatar}
             }
             catch(e) {
                 console.log(e);
@@ -57,6 +57,8 @@ export const authOptions = {
 
         async session({ session, token }) {
           session.user = token;
+          console.log(session, "session");
+          console.log(token, "token");
           return session;
         },
 

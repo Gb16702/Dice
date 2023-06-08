@@ -1,26 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useState } from "react"
 import {MdKeyboardArrowDown} from "react-icons/md"
 import {Menu} from "@headlessui/react"
-import { signOut } from "next-auth/react"
 import LogoutButton from "./LogoutButton"
 import {useSession} from "next-auth/react"
 
 const Profile = () => {
 
     const {data:session} = useSession();
-
-    const handleClick = () => {
-        signOut()
-        console.log(session);
-    }
-
     console.log(session);
+
     return <span className="px-[12px]">
-                <Menu as ="div" onClick={handleClick}>
+                <Menu as ="div">
                     <Menu.Button>
                         <span>
                             <li className="inline text-sm text-[#DFE0D7]">
@@ -29,15 +21,30 @@ const Profile = () => {
                             <MdKeyboardArrowDown className="text-white inline" />
                         </span>
                     </Menu.Button>
-                    <Menu.Items className="fixed w-[150px]">
+                    <Menu.Items className="fixed translate-y-[10px] w-[155px] bg-[#1E1E20] border border-[#333333] rounded-md px-[5px] py-[7px]">
+                        <>
                         <Menu.Item>
-                            <>
-                                <Link href="/" className="text-red-400">
-                                    Votre profil
+                            <div className="flex flex-row gap-x-4 items-center justify-start border-b border-[#333333] py-2">
+                                <Link href={`/${session?.user?.slug}/mon-profil`} className="flex justify-start hover:opacity-70 transition-all duration-300 relative text-sm text-zinc-300">
+                                    Voir le compte
                                 </Link>
-                                <LogoutButton className="text-red-400" />
-                            </>
+                            </div>
                         </Menu.Item>
+                        {session?.user?.roles.grade <= 2 && (
+                            <Menu.Item>
+                                <div className="flex flex-row gap-x-4 items-center justify-start border-b border-[#333333] py-2">
+                                <Link href="/administration/authentification" className="flex justify-start hover:opacity-70 transition-all duration-300 relative text-sm text-zinc-300">
+                                    Administration
+                                </Link>
+                                </div>
+                            </Menu.Item>
+                        )}
+                        <Menu.Item>
+                            <div className="flex flex-row gap-x-4 items-center justify-start py-2">
+                                <LogoutButton isLogged text="Se déconnecter" className="flex justify-start hover:opacity-70 transition-all duration-300 relative text-sm text-zinc-300" />
+                            </div>
+                        </Menu.Item>
+                        </>
                     </Menu.Items>
                 </Menu>
             </span>

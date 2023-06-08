@@ -5,8 +5,6 @@ const User = require('../database/schemas/User');
 const router = express.Router();
 
 router.post("/api/admin", async (req, res) => {
-
-
     if(req.method !== "POST")
         return res.status(405).send("Méthode non autorisée")
 
@@ -35,6 +33,12 @@ router.post("/api/admin", async (req, res) => {
     }else{
         return res.status(403).send("Jeton invalide")
     }
+})
+
+router.get("/api/admin/getUsers", async (req, res) => {
+    const users = await User.find({}).select("-password")
+
+    res.json(users)
 })
 
 module.exports = router;

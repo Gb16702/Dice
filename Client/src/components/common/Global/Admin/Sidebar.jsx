@@ -1,7 +1,7 @@
 "use client"
 
 import {useState} from "react";
-import { Burger, Burger2, Burger3, User, Dashboard  } from "../Icons/HeroIcons/AdminIcons";
+import { Burger, Burger2, Burger3, User, Dashboard, SideBarMenu  } from "../Icons/HeroIcons/AdminIcons";
 import {useSession} from "next-auth/react";
 import SidebarLink from "./SideBarLink";
 import Locker from "../Icons/HeroIcons/Locker";
@@ -13,12 +13,12 @@ const Sidebar = ({ children }) => {
     const {data: session} = useSession();
 
     return (
+    <>
       <aside
-        className={`${isOpen ? "w-[230px] px-8 " : "w-[75px]"} h-[100vh] bg-zinc-600/[.12] transition-all duration-100 `}
+        className={`${isOpen ? "w-[230px] px-8 " : "w-[75px]"} h-[100vh] bg-zinc-600/[.12] transition-all duration-100 relative`}
       >
-        <div className={`min-w-full h-[75px] flex items-center ${isOpen ? "justify-between" : "justify-center"}`}>
-          {isOpen && <h1 className="uppercase whitespace-nowrap">dice admin</h1>}
-          <Burger3 onClick={() => setIsOpen(!isOpen)} className="text-[25px]" />
+        <div className={`min-w-full h-[75px] flex items-center justify-center`}>
+          {isOpen && <h1 className="uppercase whitespace-nowrap font-bold text-slate-900 relative top-[2px]">dice admin</h1>}
         </div>
         {isOpen && (
             <div className="w-full h-[150px] flex flex-col">
@@ -59,6 +59,10 @@ const Sidebar = ({ children }) => {
         </div>
 
       </aside>
+      <div className="relative h-[100vh] w-[15px] bg-zinc-600/[.25]" onClick={() => setIsOpen(!isOpen)}>
+        <SideBarMenu className="text-zinc-800 absolute text-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      </div>
+      </>
     );
   };
 

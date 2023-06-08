@@ -13,11 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <>
-        <Header  />
         <main className='w-[100%] h-[100%]'>
             {children}
         </main>
-        <Footer />
     </>
   )
 }

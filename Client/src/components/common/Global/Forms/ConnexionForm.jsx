@@ -48,6 +48,12 @@ const ConnexionForm = () => {
         }
     }
 
+    /**
+      await signIn("google", {
+    }
+    */
+
+
     const passwordValue = watch("password", "");
 
     useEffect(() => {

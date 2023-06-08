@@ -26,7 +26,7 @@ const Header = ({template}) => {
   const headerClassName = "w-full h-[64px] fixed flex justify-center z-50";
 
   return <header className={`${headerClassName} ${template === "auth" ? style.secondaryHeader : style.mainHeader}`} style={headerStyle}>
-            <Nav />
+            <Nav  />
          </header>
 };
 

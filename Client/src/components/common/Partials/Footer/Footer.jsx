@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React from "react"
 import Newsletter from './Bottom/Newsletter/Newsletter'
 import FooterNavigation from './Top/FooterNavigation'
 import { SpecificPathname } from '@/src/lib/SpecificPathname'

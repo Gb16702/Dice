@@ -3,7 +3,6 @@ import NavItem from "./NavItem/NavItem"
 import Github from "@/src/components/common/Global/Icons/BrandLogos/Github"
 import {useSession} from "next-auth/react";
 import Profile from "../../../Global/Profile";
-import { getServerSession } from "next-auth";
 
 const Nav = () => {
 
