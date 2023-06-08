@@ -48,7 +48,7 @@ const error = () => {
                 <p className="mt-6 text-[19px] leading-7 text-zinc-400">
                     Réessaye plus tard ou contacte le support si le problème persiste
                 </p>
-                <div className="mt-10 flex items-center justify-center gap-x-6">
+                <div className="mt-10 flex items-center justify-center gap-x-6 flex-row">
                 {errorCode !== 409 ? (
                     errorCode === 401 ? (
                         <>
@@ -60,21 +60,23 @@ const error = () => {
                     </Link>
                         </>
                     ) : (
-                        <div>
+                        <>
                             {errorCode === 403 || errorCode === 404 ? (
                                 <Link replace href="/" className="text-zinc-300 w-[250px] h-11 px-5 rounded-md border border-zinc-300 bg-zinc-200/[.16] flex items-center justify-center">
                                     Aller à l'accueil
                                 </Link>
                             ) : null}
-                        </div>
+                            </>
                     )
                 ) : (
-                    <div>
-                        <Link replace href="/" className="text-zinc-300 w-[250px] h-11 px-5 rounded-md border border-zinc-300 bg-zinc-200/[.16] flex items-center justify-center">
+                    <>
+                        <Link replace href="/" className="text-emerald-300 w-[250px] h-11 px-5 rounded-md border border-emerald-300 bg-emerald-300/[.16] flex items-center justify-center">
                             Aller à l'accueil
                         </Link>
+                    <div className="w-[250px]">
                         <LogoutButton className="text-red-400 w-[250px] h-11 px-5 rounded-md border border-red-400 bg-red-400/[.12] flex items-center justify-center" />
                     </div>
+                    </>
                 )}
                 </div>
             </div>

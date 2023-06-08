@@ -12,7 +12,7 @@ const Label = ({url, text, isSpecific=false}) => {
     return (
         <>
             <div className={`w-full h-[60px] rounded-lg my-2 flex items-center justify-center ${isPathname ? "bg-zinc-700/[.6]" : "transparent"}`} url={url}>
-                <h3 className={!isSpecific ? "text-lg text-zinc-300" : "text-lg text-red-300"}>{text}</h3>
+                <h3 className={!isSpecific ? "text-lg text-zinc-300" : "text-lg text-zinc-300"}>{text}</h3>
             </div>
         </>
     )
