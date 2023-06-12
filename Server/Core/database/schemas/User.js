@@ -29,8 +29,6 @@ const userSchema  = new mongoose.Schema({
     password : {
         type: String,
         required: true,
-        minLenght: minPasswordLength,
-        maxLength: maxPasswordLength
     },
     roles : {
         type: mongoose.Schema.Types.ObjectId,

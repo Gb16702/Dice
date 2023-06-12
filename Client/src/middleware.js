@@ -1,5 +1,6 @@
 import { NextResponse as res } from "next/server"
 import { getToken } from "next-auth/jwt"
+import jwt from "jsonwebtoken"
 
 export {default} from "next-auth/middleware"
 
@@ -39,8 +40,7 @@ export const middleware = async (req) => {
                  },
              });
          }
-         if (req.nextUrl.pathname.startsWith("/admin") && (req.nextUrl.pathname != "/administration/authentification")) {
-            console.log(session, "session")
+         if (req.nextUrl.pathname.startsWith("/admin")) {
              if (session?.roles.grade > 2) {
                  message = "Tu n'es pas autorisé à accéder à cette page"
                  customErrorCookie = res.next().cookies.set("errorMessage", message)
@@ -57,6 +57,10 @@ export const middleware = async (req) => {
          } else if (req.nextUrl.pathname == "/administration/authentification" && session?.adminToken) {
                 return res.redirect("http://localhost:3000/administration/dashboard")
          }
+
+            if(req.nextUrl.pathname.startsWith(`/${session?.slug}/reset-email/${session?.emailToken}`)) {
+                // return new res(JSON.stringify({message : "Tu es déjà connecté"}))
+            }
     }
 
     return res.next();

@@ -39,10 +39,6 @@ const InscriptionForm = () => {
     catch(e) {
       console.log(e);
     }
-
-    finally {
-        setLoading(false)
-    }
   }
 
   const passwordValue = watch("password", "")

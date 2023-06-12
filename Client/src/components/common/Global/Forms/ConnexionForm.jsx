@@ -14,6 +14,7 @@ const ConnexionForm = () => {
     const [visible, setVisible] = useState(false);
     const [focused, setFocused] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -29,22 +30,14 @@ const ConnexionForm = () => {
                 callbackUrl : url
             })
 
-            if(response?.error) {
-                console.log(response);
-            }
-            else {
-                console.log("OK");
-            }
+            if(response.ok)
+                setSuccess(true)
+            else
+                console.log(response?.error.message);
         }
 
         catch(e) {
             console.log(e);
-        }
-
-        finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 250)
         }
     }
 
@@ -90,7 +83,7 @@ const ConnexionForm = () => {
                 )}
         </div>
         <ConnectButton>
-            {loading ? "Connexion en cours" : "Se connecter"}
+            {loading ? "Connexion en cours" : success ? "Redirection en cours" : "Se connecter"}
         </ConnectButton>
     </form>
 }

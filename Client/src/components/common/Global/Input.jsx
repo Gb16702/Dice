@@ -5,4 +5,6 @@ const Input = forwardRef(({type, ...props}, ref) => {
     return  <input type={type ?? defaultType} ref = {ref} {...props} />
 })
 
+Input.displayName = "Input";
+
 export default Input;

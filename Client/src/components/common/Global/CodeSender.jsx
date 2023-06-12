@@ -2,44 +2,128 @@
 
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { Close } from "./Icons/HeroIcons/Close";
+import Input from "./Input";
+import Button from "./Button";
+import { useSession } from "next-auth/react";
+import ModalBox from "./ModalBox";
 
 const CodeSender = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [response, setResponse] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [token, setToken] = useState(null)
+  const [inputValue, setInputValue] = useState("")
+  const [isCopied, setIsCopied] = useState(false)
 
-  const handleClick = () => {
+  const { data: session } = useSession();
+
+  const email = session?.user?.email;
+
+  const handleClick = async () => {
     setIsOpen(true);
+
+    const data = await fetch(`http://localhost:8000/api/getCode?email=${email}`)
+    if(data.ok) {
+      const dataToJson = await data.json()
+      console.log("Injection");
+      setResponse(dataToJson)
+    }
   };
+
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+    console.log(e.target[0].value);
+    const input = e.target[0].value
+    if(input === response.value) {
+      console.log("ok");
+      const response = await fetch("http://localhost:8000/api/verifyCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({email, input})
+      })
+      const data = await response.json()
+      console.log(data);
+      if(response.ok) {
+        setToken(data.token.token)
+        console.log(token);
+        setLoading(false)
+      }
+    }else {
+      console.log("pas ok");
+      setLoading(false)
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 1000)
+    }
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(token)
+    setIsCopied(true)
+    setIsOpen(false)
+  }
+
+  const isInputEmpty = inputValue.trim() === ""
 
   return (
     <>
       {isOpen && (
-        <div className="absolute bg-black/[.5] w-full top-1/2 left-1/2 h-[100vh] -translate-x-1/2 -translate-y-1/2">
-          <div className="fixed top-1/2 left-1/2 w-[500px] h-[260px] -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-[14px]">
-            <h3 className="text-zinc-800 text-[20px] tracking-tight">
-              Code envoyé !
-            </h3>
+        <ModalBox>
+            <div className="justify-between items-center flex">
+              <h3 className="text-zinc-950 font-medium text-[20px] tracking-tight">
+              {token ? "Code vérifié !" : "Code envoyé !"}
+              </h3>
+              <Close className="text-xl cursor-pointer" onClick={() => setIsOpen(false)} />
+            </div>
             <h4 className="mt-1 text-sm text-zinc-500/[.8]">
-              Un code a été envoyé à ton adresse mail ! <br />
-              Entre le dans le champs ci-dessous :
+            {token ? "Le code a été vérifié avec succès." : "Un code a été envoyé à ton adresse mail"}<br />
             </h4>
-          </div>
-        </div>
+
+            {!token && (
+              <form onSubmit={handleSubmit} className="mt-4">
+              <Input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-300 placeholder-zinc-400/[.8] transition duration-200" placeholder="Entrer le code" value={inputValue} onChange={e => setInputValue(e.target.value)}
+              />
+              <Button className={`${error ? "bg-red-400" : isInputEmpty ? "bg-emerald-400/[.3] text-emerald-400" : "bg-emerald-500 text-white"}  w-full h-[50px] gap-4 flex items-center justify-center text-base font-medium transition-color disabled:opacity-50 disabled:pointer-events-none px-3 mt-2 rounded-[5px] transition-all dureation-300`}
+              disabled={isInputEmpty || loading}>
+              {loading ? "Vérification..." : "Continuer"}
+              </Button>
+            </form>
+              )}
+              {token && (
+                <>
+                <Input className="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-300 placeholder-zinc-400/[.8] transition duration-200" value={token}
+                />
+                <button className="mt-2 bg-emerald-400/[.3] rounded-md w-[150px] h-[46px] text-emerald-400" onClick={handleCopy}>{isCopied ? "Copié" : "Copier"}</button>
+                </>
+              )}
+        </ModalBox>
       )}
-      <div>
-        <h3 className="mt-4 text-base text-zinc-800">
-          Jeton d'administration :
+
+      <div className="mt-10 border-t border-zinc-200">
+        <h3 className="mt-4 text-lg text-zinc-900 font-semibold">
+          Jeton d'administration
         </h3>
-        <h4 className="mt-1 text-sm text-zinc-500/[.8]">
+        <h4 className="mt-1 text-md text-zinc-500">
           Obtenir un jeton te permettra d'accéder à l'interface d'administration
           de l'application
         </h4>
+      <div className="mt-6 w-[40%]">
         <h4
-          className="text-emerald-400 text-sm mt-1 cursor-pointer"
+          className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 leading-tight px-2"
           onClick={handleClick}
-        >
+          >
           Générer un jeton
         </h4>
       </div>
+      </div>
+
     </>
   );
 };
