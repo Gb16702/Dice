@@ -3,15 +3,14 @@ import Glass from "@/src/components/common/Global/Icons/HeroIcons/Glass"
 import Button from "@/src/components/common/Global/Button"
 import Squares from "@/src/components/common/Global/Squares"
 import Title from "@/src/components/common/Partials/Title"
-import style from "@/styles/heroBackground.module.css"
-import Header from "@/src/components/common/Partials/Header/Header"
-
+import styles from "@/styles/heroBackground.module.css"
+import "../../../app/globals.css"
 
 const Hero = () => {
     return <>
         {/* <Preloader /> */}
-        <section className={`${style.heroSection} flex items-center justify-center  h-[100vh] relative overflow-hidden`}>
-            <div className="w-[70%] flex items-center justify-center flex-col">
+        <section className={`flex items-center justify-center h-[100vh] relative overflow-hidden gradient`}>
+            <div className={`w-[70%] flex items-center justify-center flex-col`}>
                 <Title />
                 <div className="HeroBottom flex flex-row space-x-5 mt-[60px] relative">
                     <Button className="bg-[#603AD9] rounded-[8px] w-[180px] h-[45px] font-medium text-white z-10 transition duration-300 hover:bg-[#6F3FD9]" text="Découvrir" />

@@ -10,11 +10,25 @@ const jwt = require("jsonwebtoken");
 const sendGrid = require("@sendgrid/mail");
 const VerificationToken = require("../database/schemas/VerificationToken");
 const Token = require("../database/schemas/Token");
+const {emailPattern, usernamePattern}	= require("../utils/patterns");
 
 const router = express.Router();
 
 router.post("/api/users", async (req, res) => {
-  const { username, email, password } = req.body;
+  if(req.method !== "POST")
+    return res.status(405).send({message : "Méthode non autorisée"})
+
+  const { username, email, password, confirmPassword } = req.body;
+
+  if(!username || !email || !password || !confirmPassword)
+    return res.status(400).send({message : "Requête invalide"})
+
+
+  if(password !== confirmPassword || password == username || usernamePattern().test(email) || username.length < 2 || username.length > 24 || !emailPattern().test(email))
+    return res.status(400).send({message : "Requête invalide"})
+
+  if(await User.findOne({email}))
+    return res.status(403).send({message : "Cet email est déjà associée à un compte"})
 
   const defaultRole = await Role.findOne({ default: true });
 
@@ -25,11 +39,7 @@ router.post("/api/users", async (req, res) => {
     userRole = founderRole._id;
   }
 
-  const slug = username
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .split(" ")
-    .join("-");
+  const slug = username.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join("-");
 
   try {
     let userPassword = password;

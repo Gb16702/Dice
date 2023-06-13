@@ -1,6 +1,3 @@
-import '../globals.css'
-import Header from "@/src/components/common/Partials/Header/Header"
-import Footer from '@/src/components/common/Partials/Footer/Footer'
 
 export const metadata = {
   title: 'Next.js Starter',

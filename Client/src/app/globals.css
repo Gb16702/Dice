@@ -7,3 +7,19 @@
     background-color: #B3A1E6;
     color: #FFFFFF;
 }
+
+
+
+.gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 6%;
+    z-index: -1;
+    width: 150%;
+    left : -25%;
+    background:linear-gradient(83.21deg,#3245ff 0%,#bc52ee 100%);
+    background-blend-mode: overlay;
+    -webkit-mask-image: radial-gradient(rgba(0,0,0,.5),transparent 67%);
+    mask-image: radial-gradient(rgba(0,0,0,.5),transparent 70%)
+}
