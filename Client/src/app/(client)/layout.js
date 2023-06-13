@@ -1,7 +1,6 @@
 import '../globals.css'
 import Header from "@/src/components/common/Partials/Header/Header"
 import Footer from '@/src/components/common/Partials/Footer/Footer'
-import Nav from '@/src/components/common/Partials/Header/Navigation/Nav'
 import { decodeSession } from '@/src/lib/decodeSession'
 import { Discord } from '../../components/common/Global/Icons/BrandLogos/Discord'
 import NavItem from '../../components/common/Partials/Header/Navigation/NavItem/NavItem'

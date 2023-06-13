@@ -8,6 +8,8 @@ import { signIn } from "next-auth/react";
 import {useState, useEffect} from "react";
 import { ClosedEye, OpenEye } from "../Icons/HeroIcons/Eyes";
 import { emailPattern as pattern } from "@/src/lib/emailPattern";
+import { toast } from "react-hot-toast";
+import Toast from "../Toast";
 
 const ConnexionForm = () => {
 
@@ -17,6 +19,7 @@ const ConnexionForm = () => {
     const [success, setSuccess] = useState(false)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
 
     const onSubmit = async data => {
         console.log(data);
@@ -30,10 +33,14 @@ const ConnexionForm = () => {
                 callbackUrl : url
             })
 
-            if(response.ok)
+            if(response.ok) {
                 setSuccess(true)
-            else
+                    toast.custom(<Toast message="Tu es connecté !" variant = "success" type="Succès" />)
+            }
+            else {
+                toast.error("Une erreur est survenue")
                 console.log(response?.error.message);
+            }
         }
 
         catch(e) {
@@ -59,7 +66,7 @@ const ConnexionForm = () => {
 
 
     return <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <Input className="bg-white border border-[#e0e0e2] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-zinc-800 focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre adresse mail"
+        <Input type="email" className="bg-white border border-[#e0e0e2] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-zinc-800 focus:border-vtertiary focus:text-vtertiary transition duration-200" placeholder = "Votre adresse mail"
             {...register("email", {
                 required : {
                     value : true,

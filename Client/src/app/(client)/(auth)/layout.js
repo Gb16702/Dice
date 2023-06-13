@@ -1,7 +1,5 @@
 import '../../globals.css'
 import Header from "@/src/components/common/Partials/Header/Header"
-import { poppins, montserrat, ubuntu } from '../../fonts'
-import AuthProvider from '../../../components/common/Global/AuthProvider'
 
 export const metadata = {
   title: 'Dice - Authentification',

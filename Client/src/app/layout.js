@@ -1,8 +1,5 @@
 import './globals.css'
-import Header from "@/src/components/common/Partials/Header/Header"
-import Footer from '@/src/components/common/Partials/Footer/Footer'
 import { poppins, montserrat, ubuntu } from './fonts'
-import Providers from '../components/common/Global/Providers'
 import AuthProvider from '../components/common/Global/AuthProvider'
 
 export const metadata = {

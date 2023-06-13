@@ -1,93 +1,29 @@
-import { emailPattern as pattern } from "./emailPattern";
+import * as yup from 'yup';
 
-const requiredErrorMessage = "Ce champs est requis";
+const usernamePattern = /^[a-zA-Z0-9]+$/;
+const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const usernamePattern = /^[a-zA-Z0-9]*$/;
-const emailPattern = pattern;
-const forbiddenWords = ["password", "123456", "PASSWORD", "azerty"];
+const forbiddenWords = ["password", "123456", "PASSWORD", "azerty"]
+const [forbiddenWordsToUppercase, forbiddenWordsToLowercase] = forbiddenWords.reduce((arr, word) => {
+    arr[0].push(word.toUpperCase());
+    arr[1].push(word.toLowerCase());
+    return arr;
+}, [[], []])
 
-const minLength = {
-    username: 2,
-    password : 6
-};
-const maxLength = 48
+const resolver = yup.object().shape({
+    username : yup.string().required("Ce champs est requis").test("not-equal-to-password", "Ce champs doit être différent du mot de passe", function (value){
+        const {password} = this.parent;
+        return value !== password
+    }).min(2, value => `Ce champs doit faire au moins ${value.min} caractères`).max(24, value => `Ce champs doit faire au plus ${value.max} caractères`).matches(usernamePattern, "Ce champs ne peut contenir que des caractères alphanumériques"),
+    email : yup.string().required("Ce champs est requis").matches(emailPattern, "L'adresse mail est invalide"),
+    password : yup.string().required("Ce champs est requis").test("not-equal-to-password", "Ce champs doit être différent du mot de passe", function (value){
+        const {username} = this.parent;
+        return value !== username
+    }).notOneOf([...forbiddenWordsToUppercase, ...forbiddenWordsToLowercase], value =>  `Le mot de passe "${value.value}" est trop faible`).min(6, (value) => `Le mot de passe doit faire au moins ${value.min} caractères`).required("Ce champs est requis"),
+    confirmPassword : yup.string().required("Ce champs est requis").test("equal-to-password", "Les mots de passe doivent correspondre", function (value){
+        const {password} = this.parent;
+        return value === password
+    })
+})
 
-const isForbidden = password => {
-    return forbiddenWords.some(word => password.toLowerCase().includes(word));
-}
-
-const isPasswordSecure = password => {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSymbols = /[^A-Za-z0-9]/.test(password);
-
-    const isSecure = hasUppercase && hasLowercase && hasNumbers && hasSymbols;
-    return isSecure;
-}
-
-export const resolver = (values) => {
-    const errors = {};
-
-     const errorMessages = {
-         username : {
-             required : "Le nom d'utilisateur est requis",
-             minLength : `Ce champs doit faire au moins ${minLength.username} caractères`,
-             maxLength : `Ce champs doit faire au plus ${maxLength} caractères`,
-             invalid : "Ce champs ne doit contenir que des caractères alphanumériques"
-         },
-         email : {
-             required : "L'adresse mail est requise",
-             invalid : "L'adresse mail est invalide"
-         },
-         password : {
-             required : "Le mot de passe est requis",
-             minLength : `Ce champs doit faire au moins ${minLength.password} caractères`,
-             maxLength : `Ce champs doit faire au plus ${maxLength} caractères`,
-             invalid : {
-                 forbidden : "Ce mot de passe est trop simple",
-                 notSameAs : "Les mots de passe ne correspondent pas"
-             }
-         },
-         confirmPassword : {
-             required : "La confirmation est requise",
-             invalid : {
-                 notSameAs : "Les mots de passe ne correspondent pas"
-             }
-         }
-     }
-
-     Object.keys(errorMessages).map(field => {
-         if(!values[field])
-             errors[field] = errorMessages[field].required;
-         else {
-             if(values[field].length < minLength[field])
-                 errors[field] = errorMessages[field].minLength;
-
-             else if(values[field].length > maxLength)
-                 errors[field] = errorMessages[field].maxLength;
-         }
-     })
-     if(values.username && !usernamePattern.test(values.username))
-         errors.username = errorMessages.username.invalid;
-
-     if(values.email && !emailPattern.test(values.email))
-         errors.email = errorMessages.email.invalid;
-
-     if(values.password) {
-         if(!isPasswordSecure(values.password))
-             errors.password = errorMessages.password.invalid.forbidden;
-
-         else if(isForbidden(values.password))
-             errors.password = errorMessages.password.invalid.forbidden;
-
-         else if(values.confirmPassword && values.password !== values.confirmPassword) {
-             errors.password = errorMessages.password.invalid.notSameAs;
-             errors.confirmPassword = errorMessages.password.invalid.notSameAs;
-         }
-
-     }
-
-    const isValid = Object.keys(errors).length === 0;
-    return {errors, isValid}
-}
+export default resolver;
