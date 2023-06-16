@@ -12,6 +12,7 @@
     "@sendgrid/mail": "^7.7.0",
     "argon2": "^0.30.3",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

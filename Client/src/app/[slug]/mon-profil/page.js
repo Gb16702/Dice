@@ -15,11 +15,11 @@ const page = async () => {
             <section className="bg-gradient-to-b from-[#F7F7F7] to-[#EEE] h-[100vh] w-full flex items-center justify-center">
                 <div className="w-[1400px] h-[700px] rounded-lg bg-white shadow-[0_0_8px] shadow-[#444444]/[.13] overflow-hidden flex flex-row">
                     <Aside session={session} />
-                    <div className="pt-[30px] px-4 overflow-y-scroll w-full">
+                    <div className="pt-[30px] pb-[40px] px-4 overflow-y-scroll w-full">
                         <UserProfileCredentials session={session} />
                         <DeleteAccount />
                         <CodeSender />
-                        
+
                     </div>
                 </div>
             </section>

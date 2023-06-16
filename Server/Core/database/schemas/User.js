@@ -37,8 +37,7 @@ const userSchema  = new mongoose.Schema({
     },
     avatar : {
         type: String,
-        required : true,
-        default : defaultAvatarDirectory[Math.floor(Math.random() * defaultAvatarDirectory.length)]
+        required : false,
     },
     status : {
         type: mongoose.Schema.Types.ObjectId,

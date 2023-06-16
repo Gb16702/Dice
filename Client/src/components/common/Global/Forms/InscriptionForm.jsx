@@ -40,7 +40,7 @@ const InscriptionForm = () => {
       })
 
       if(response.ok) {
-        toast.custom(<Toast message="Vous vous êtes inscrit à Dice !" variant = "success" type="Succès" />)
+        toast.custom(<Toast message="Inscription validée, bienvenue !" variant = "success" type="Succès" />)
         router.push("/connexion");
       }
 

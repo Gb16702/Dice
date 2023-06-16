@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import UsernameForm from "./Forms/usernameForm";
 import EmailForm from "./Forms/EmailForm"
 import PasswordForm from "./Forms/PasswordForm";
+import ProfilePictureForm from "./Forms/ProfilePictureForm";
 
 const UserProfileCredentials = () => {
 
@@ -16,6 +17,7 @@ const UserProfileCredentials = () => {
                 <h3 className="text-zinc-500 font-medium text-md">Ces informations sont visibles par tout le monde.</h3>
                 <div className="mt-6 w-[40%] ">
                     <UsernameForm />
+                    <ProfilePictureForm />
                 </div>
             </div>
             <div className="mt-8">

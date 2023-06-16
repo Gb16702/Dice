@@ -50,7 +50,7 @@ export const middleware = async (req) => {
                      },
                  });
              } else {
-                    if(!session?.adminToken) {
+                    if(!session?.adminToken && req.nextUrl.pathname != "/administration/authentification") {
                         return res.redirect("http://localhost:3000/administration/authentification")
                 }
              }

@@ -6,6 +6,8 @@ import Input from "../Input"
 import { useSession } from "next-auth/react";
 import {useRouter} from "next/navigation"
 import {useState} from "react"
+import Toast from "../Toast";
+import { toast } from "react-hot-toast";
 
 const ResetEmail = () => {
 
@@ -33,9 +35,13 @@ const ResetEmail = () => {
             body: JSON.stringify({email, password, token})
         })
 
-        await response.json()
-        if(response.ok) {
+        if(!response.ok) {
+            toast.custom(<Toast message={"Une erreur est survenue"} variant = "error" type="Erreur" />)
+        }else{
+            await response.json()
             setSuccess(true)
+            toast.custom(<Toast message={`Ton adresse mail a correctement été modifiée`} variant = "success" type="Succès" />)
+            router.replace("/")
         }
     }
 

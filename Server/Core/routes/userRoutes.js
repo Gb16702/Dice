@@ -11,6 +11,9 @@ const sendGrid = require("@sendgrid/mail");
 const VerificationToken = require("../database/schemas/VerificationToken");
 const Token = require("../database/schemas/Token");
 const {emailPattern, usernamePattern}	= require("../utils/patterns");
+const cloudinary = require("cloudinary").v2;
+const cloudConfig = require("../utils/cloudConfig");
+
 
 const router = express.Router();
 
@@ -294,6 +297,36 @@ router.delete("/api/users/:id/token", async (req, res) => {
   }
   catch(e) {
     console.log(e);
+  }
+})
+
+router.post("/api/users/:id/image", async (req, res) => {
+  if(req.method !== "POST")
+    return res.status(405).send({message : "Méthode non autorisée"})
+
+  const {profilePicture, format, size, imageId} = req.body, {id} = req.params
+
+  if(!profilePicture || !id || !format || !size || !imageId)
+    return res.status(400).send({message : "Requête invalide"})
+
+  cloudinary.config(cloudConfig)
+  if((size > (512 * 512)) || (["png", "jpeg", "jpg"].indexOf(format) < 0)){
+    try {
+      await User.findOne({_id : id})
+      await Promise.all([
+        cloudinary.uploader.destroy(imageId, (err, result) => {
+          console.log(err, result);
+        }),
+        User.findOneAndUpdate({_id : id}, {$unset : {"avatar" : null}}, {new : true})
+      ])
+      res.status(400).send({message : "la requête est invalide"})
+    }
+    catch(e) {
+      console.log(e.message);
+    }
+  }else{
+    await User.findOneAndUpdate({_id : id}, {$set : {"avatar" : profilePicture}}, {new : true})
+    res.status(200).send({message : "L'image a été modifiée avec succès"})
   }
 })
 

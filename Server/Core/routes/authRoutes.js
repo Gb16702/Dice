@@ -101,9 +101,10 @@ router.get("/api/getCode", async (req, res) => {
     const mail = {
          to : req.query.email,
          from : process.env.FOUNDER,
-         templateId : "d-23f8d651ccca44e0af99a4dec91bfc82",
+         templateId : "d-de5ebccee688482bb68dbf2000acad84",
          dynamic_template_data : {
-             code : code.value
+             code : code.value,
+             username : user.username
          }
      }
 

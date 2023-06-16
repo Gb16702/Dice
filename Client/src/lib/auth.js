@@ -37,8 +37,14 @@ export const authOptions = {
                     })
                 })
 
-                const {userWithoutPassword : {_id : id, username, email, roles, slug, avatar}} = await res.json();
-                return {id, username, email, roles, slug, avatar}
+                if(!res.ok) {
+                    const {message} = await res.json();
+                    throw new Error(message ?? "Une erreur est survenue")
+                }
+                else {
+                    const {userWithoutPassword : {_id : id, username, email, roles, slug}} = await res.json();
+                    return {id, username, email, roles, slug}
+                }
             }
             catch(e) {
                 console.log(e);

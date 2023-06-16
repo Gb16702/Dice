@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import {useRouter} from "next/navigation"
 import Input from "../Input";
+import Toast from "../Toast";
+import { toast } from "react-hot-toast";
 
 const ResetPasswordForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -29,10 +31,13 @@ const ResetPasswordForm = () => {
         body: JSON.stringify({password, newPassword, token})
     })
 
-    await response.json()
-    if(response.ok) {
-        setSuccess(true)
-        router.replace("/")
+    if(!response.ok) {
+        toast.custom(<Toast message={"Une erreur est survenue"} variant = "error" type="Erreur" />)
+    }else{
+      await response.json()
+      setSuccess(true)
+      toast.custom(<Toast message={`Ton mot de passe a correctement été modifié`} variant = "success" type="Succès" />)
+      router.replace("/")
     }
   };
 

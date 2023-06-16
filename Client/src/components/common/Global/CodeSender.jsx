@@ -7,6 +7,8 @@ import Input from "./Input";
 import Button from "./Button";
 import { useSession } from "next-auth/react";
 import ModalBox from "./ModalBox";
+import Toast from "./Toast";
+import { toast } from "react-hot-toast";
 
 const CodeSender = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,9 +49,9 @@ const CodeSender = () => {
         },
         body: JSON.stringify({email, input})
       })
-      const data = await response.json()
       console.log(data);
       if(response.ok) {
+        const data = await response.json()
         setToken(data.token.token)
         console.log(token);
         setLoading(false)
@@ -65,9 +67,16 @@ const CodeSender = () => {
   }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(token)
-    setIsCopied(true)
-    setIsOpen(false)
+    try {
+      navigator.clipboard.writeText(token)
+      setIsCopied(true)
+      setIsOpen(false)
+      toast.custom(<Toast message="Jeton copié !" variant = "success" type="Succès" />)
+    }
+    catch(e) {
+      console.log(e.message);
+      toast.custom(<Toast message="Une erreur est survenue" variant = "error" type="Erreur" />)
+    }
   }
 
   const isInputEmpty = inputValue.trim() === ""
@@ -100,7 +109,7 @@ const CodeSender = () => {
                 <>
                 <Input className="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-300 placeholder-zinc-400/[.8] transition duration-200" value={token}
                 />
-                <button className="mt-2 bg-emerald-400/[.3] rounded-md w-[150px] h-[46px] text-emerald-400" onClick={handleCopy}>{isCopied ? "Copié" : "Copier"}</button>
+                <button className="mt-2 bg-emerald-400 border border-emerald-400 rounded-md w-full h-[46px] text-white" onClick={handleCopy}>{isCopied ? "Copié" : "Copier"}</button>
                 </>
               )}
         </ModalBox>
@@ -116,7 +125,7 @@ const CodeSender = () => {
         </h4>
       <div className="mt-6 w-[40%]">
         <h4
-          className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 leading-tight px-2"
+          className="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 leading-tight px-2 hover:cursor-pointer"
           onClick={handleClick}
           >
           Générer un jeton

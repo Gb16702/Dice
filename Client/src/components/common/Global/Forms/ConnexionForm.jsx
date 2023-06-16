@@ -10,6 +10,7 @@ import { ClosedEye, OpenEye } from "../Icons/HeroIcons/Eyes";
 import { emailPattern as pattern } from "@/src/lib/emailPattern";
 import { toast } from "react-hot-toast";
 import Toast from "../Toast";
+import {useRouter} from "next/navigation"
 
 const ConnexionForm = () => {
 
@@ -27,15 +28,14 @@ const ConnexionForm = () => {
         try {
             setLoading(true)
             const response = await signIn("credentials", {
-                redirect: "/",
+                redirect : "/",
                 email : data.email,
                 password : data.password,
-                callbackUrl : url
             })
 
             if(response.ok) {
+                toast.custom(<Toast message="Tu es connecté !" variant = "success" type="Succès" />)
                 setSuccess(true)
-                    toast.custom(<Toast message="Tu es connecté !" variant = "success" type="Succès" />)
             }
             else {
                 toast.error("Une erreur est survenue")
