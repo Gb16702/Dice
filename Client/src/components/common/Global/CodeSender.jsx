@@ -29,7 +29,6 @@ const CodeSender = () => {
     const data = await fetch(`http://localhost:8000/api/getCode?email=${email}`)
     if(data.ok) {
       const dataToJson = await data.json()
-      console.log("Injection");
       setResponse(dataToJson)
     }
   };
@@ -38,10 +37,8 @@ const CodeSender = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     setLoading(true)
-    console.log(e.target[0].value);
     const input = e.target[0].value
     if(input === response.value) {
-      console.log("ok");
       const response = await fetch("http://localhost:8000/api/verifyCode", {
         method: "POST",
         headers: {
@@ -49,15 +46,12 @@ const CodeSender = () => {
         },
         body: JSON.stringify({email, input})
       })
-      console.log(data);
       if(response.ok) {
         const data = await response.json()
         setToken(data.token.token)
-        console.log(token);
         setLoading(false)
       }
     }else {
-      console.log("pas ok");
       setLoading(false)
       setError(true)
       setTimeout(() => {
@@ -74,7 +68,6 @@ const CodeSender = () => {
       toast.custom(<Toast message="Jeton copié !" variant = "success" type="Succès" />)
     }
     catch(e) {
-      console.log(e.message);
       toast.custom(<Toast message="Une erreur est survenue" variant = "error" type="Erreur" />)
     }
   }

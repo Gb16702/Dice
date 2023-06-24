@@ -17,7 +17,6 @@ const PasswordForm = () => {
             body: JSON.stringify({email: session?.user?.email, username: session?.user?.username})
         })
         const {token} = await response.json()
-        console.log(token);
 
         if(response.ok && token) {
             await update({
@@ -27,7 +26,6 @@ const PasswordForm = () => {
                     "passwordToken" : token,
                 }
             })
-            console.log(session);
         }
     }
 

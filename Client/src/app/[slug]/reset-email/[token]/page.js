@@ -6,12 +6,9 @@ import { FormEnglober } from "@/src/components/common/Global/FormEnglober";
 
 const decodeToken = async (token) => {
   try {
-    console.log(token);
     const decodedToken = jwt.verify(token, process.env.NEXTAUTH_SECRET);
-    console.log(decodedToken);
     return decodedToken;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
@@ -26,7 +23,6 @@ const page = async (req, res) => {
       return redirect("/")
   }
 
-  console.log(verifyToken, "test");
 
   if (!verifyToken || !session) {
     return redirect("/");
@@ -37,9 +33,6 @@ const page = async (req, res) => {
     hour: "2-digit",
     minute: "2-digit",
   });
-  console.log(now, "test");
-  console.log(expiration, "test");
-
 
   if (expiration < now) {
     await fetch(`/api/users/${session?.id}/token`, {

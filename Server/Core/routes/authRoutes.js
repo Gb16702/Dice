@@ -18,7 +18,6 @@ const dotenv = require('dotenv').config({path : path.join(__dirname, "../../../.
 router.post("/api/login", async (req, res) => {
     try {
 
-    console.log("OK2");
 
     if(req.method !== "POST")
         return res.status(405).send({message : "Méthode non autorisée"})
@@ -28,14 +27,7 @@ router.post("/api/login", async (req, res) => {
     }
 
     const { email, password } = req.body
-    console.log(req.body);
 
-    // const errors = formValidation({email, password})
-    // console.log(errors);
-    // if(Object.keys(errors).length > 0) return res.status(400).send('Test')
-    //! A regarder
-
-    console.log("TEST");
 
     const user = await User.findOne({email}).populate('roles', 'name grade')
     if(!await argon.verify(user.password, password, {
@@ -46,7 +38,6 @@ router.post("/api/login", async (req, res) => {
 
     if(user) {
         const {password, ...userWithoutPassword} = user.toObject();
-        console.log(userWithoutPassword, "userWithoutPassword");
          return res.status(200).send({
             userWithoutPassword,
          })
@@ -54,7 +45,6 @@ router.post("/api/login", async (req, res) => {
     else
         return res.status(401).send({message : "Echec de l'authentification"});
     } catch (error) {
-        console.log(error);
         return res.status(500).send({message : "Une erreur est survenue"})
     }
 
@@ -81,7 +71,6 @@ router.get("/api/getCode", async (req, res) => {
 
     let user = await User.findOne({email : req.query.email}).populate('roles', 'grade')
     user.toObject()
-    console.log(user.roles.grade);
 
     if(!user)
         return res.status(404).send({message : "Utilisateur introuvable"})
@@ -115,7 +104,6 @@ router.get("/api/getCode", async (req, res) => {
          }
 
          catch(e) {
-             console.log(e.response.body.errors);
              return res.status(500).json({message : "Erreur serveur"})
          }
 })
@@ -126,8 +114,6 @@ router.post("/api/verifyCode", async (req, res) => {
         return res.status(405).send({message : "Méthode non autorisée"})
 
     const {email, input} = req.body
-
-    console.log(input);
 
     if(!email || !input)
     return res.status(400).send({message : "Requête invalide"})
@@ -148,7 +134,6 @@ router.post("/api/verifyCode", async (req, res) => {
         return res.status(401).send("Code expiré")
 
     const token = await Token.findOne({})
-    console.log(token);
 
     try {
         if(token)
@@ -159,7 +144,6 @@ router.post("/api/verifyCode", async (req, res) => {
     }
 
     catch(e) {
-        console.log(e);
         return res.status(500).json({message : "Une erreur est surevenue"})
     }
 })

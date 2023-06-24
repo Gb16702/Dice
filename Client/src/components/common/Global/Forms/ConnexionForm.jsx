@@ -23,7 +23,6 @@ const ConnexionForm = () => {
 
 
     const onSubmit = async data => {
-        console.log(data);
         const url = "http://localhost:3000/";
         try {
             setLoading(true)
@@ -39,7 +38,6 @@ const ConnexionForm = () => {
             }
             else {
                 toast.error("Une erreur est survenue")
-                console.log(response?.error.message);
             }
         }
 

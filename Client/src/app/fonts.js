@@ -17,4 +17,3 @@ export const montserrat = Montserrat({
     weight : ["400", "500", "700"],
     subsets: ["latin"]
 })
-

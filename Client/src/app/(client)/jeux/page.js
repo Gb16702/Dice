@@ -5,7 +5,6 @@ import { decodeSession } from "@/src/lib/decodeSession"
 const jeux = async () => {
 
     const session = await decodeSession()
-    console.log(session);
     return (
         <>
             <div className="h-[100vh] flex items-center justify-center text-white">

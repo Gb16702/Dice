@@ -24,7 +24,6 @@ export const authOptions = {
         CredentialsProvider({
 
             async authorize(credentials) {
-                console.log(credentials);
                 try {
                 const res = await fetch("http://localhost:8000/api/login", {
                     method: "POST",
@@ -42,8 +41,8 @@ export const authOptions = {
                     throw new Error(message ?? "Une erreur est survenue")
                 }
                 else {
-                    const {userWithoutPassword : {_id : id, username, email, roles, slug}} = await res.json();
-                    return {id, username, email, roles, slug}
+                    const {userWithoutPassword : {_id : id, username, email, roles, slug, avatar}} = await res.json();
+                    return {id, username, email, roles, slug, avatar}
                 }
             }
             catch(e) {

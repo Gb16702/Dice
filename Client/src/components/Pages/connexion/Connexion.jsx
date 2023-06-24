@@ -10,7 +10,6 @@ import FormBottom from "../../common/Global/FormBottom";
 const Connexion = () => {
 
     const {data:session} = useSession();
-    console.log(session?.user);
 
     return <section className="h-[100vh] flex items-center justify-center bg-gradient-to-b from-[#F7F7F7] to-[#EEE] flex-col">
         <div className="flex items-center justify-center flex-col w-[1000px]">

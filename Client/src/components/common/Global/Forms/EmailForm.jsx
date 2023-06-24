@@ -17,7 +17,6 @@ const EmailForm = () => {
             body: JSON.stringify({email: session?.user?.email})
         })
         const {token} = await response.json()
-        console.log(token);
 
         if(response.ok && token) {
             await update({
@@ -27,7 +26,6 @@ const EmailForm = () => {
                     "emailToken" : token,
                 }
             })
-            console.log(session);
         }
     }
 

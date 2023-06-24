@@ -12,16 +12,19 @@ const AdminConnexionForm = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const router = useRouter();
     const { data: session, update} = useSession();
-    console.log(session);
-
     const onSubmit = async (d, req) => {
+
         try {
             const response = await fetch("http://localhost:8000/api/admin", {
                 method: "POST",
                 headers : {
                     "Content-Type" : "application/json"
                 },
-                body : JSON.stringify(d)
+                body : JSON.stringify({
+                    email : session?.user.email,
+                    password : d.password,
+                    token : d.token,
+                })
             })
 
             if(response.ok) {
@@ -35,8 +38,6 @@ const AdminConnexionForm = () => {
                     });
                     router.push("/administration/dashboard");
                 }
-            }else{
-                console.log("Une erreur est survenue");
             }
         }
 
@@ -46,18 +47,6 @@ const AdminConnexionForm = () => {
     }
 
     return <form onSubmit={handleSubmit(onSubmit)} className="w-full z-10">
-        <Input className="bg-white border border-[#e0e0e2] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-slate-800 focus:border-slate-800 transition duration-200" placeholder="Entre ton adresse mail"
-            {...register("email", {
-                required: {
-                    value: true,
-                    message: "L'adresse mail est requise"
-                },
-                pattern: {
-                    value: pattern,
-                    message: "L'adresse mail est invalide"
-                }
-            })}
-        />
         <Input className="bg-white border border-[#e0e0e2] w-full h-[50px]  gap-4 flex items-center  text-base disabled:opacity-50 disabled:pointer-events-none outline-none px-3 mt-2 rounded-[5px] font-normal text-slate-800 focus:border-slate-800  transition duration-200" placeholder="Entre ton mot de passe"
             {...register("password", {
                 required : {

@@ -11,7 +11,11 @@ module.exports = async () => {
         for (const statusData of status) {
             const isExistingStatus = await Status.findOne({state : statusData.state});
             if(isExistingStatus) continue;
-            const newStatus = new Status({state : statusData.state, default : statusData.default});
+            const newStatus = new Status({
+                state : statusData.state,
+                slug : statusData.state.toLowerCase().replace(/ /g, "-"),
+                default : statusData.default
+            });
             await newStatus.save();
         }
     }

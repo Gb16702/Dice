@@ -18,8 +18,6 @@ const ResetEmail = () => {
     const {data: session} = useSession();
     const router = useRouter();
 
-    console.log(session);
-
     const onSubmit = async data => {
         const {emailToken} = session?.user, token = emailToken, {email, password} = data;
         if(!password)

@@ -21,7 +21,7 @@ router.post("/api/users", async (req, res) => {
   if(req.method !== "POST")
     return res.status(405).send({message : "Méthode non autorisée"})
 
-  const { username, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword} = req.body;
 
   if(!username || !email || !password || !confirmPassword)
     return res.status(400).send({message : "Requête invalide"})
@@ -51,7 +51,6 @@ router.post("/api/users", async (req, res) => {
       userPassword = await argon.hash(userPassword, {
         type: argon.argon2id,
       })
-
     User.create({
       username,
       slug,
@@ -62,7 +61,6 @@ router.post("/api/users", async (req, res) => {
 
     res.status(200).send({ message: "Compte créé avec succès" });
   } catch (e) {
-    console.log(e);
     res.status(500).send(`Erreur : ${e}`);
   }
 });
@@ -72,7 +70,6 @@ router.get("/api/users", async (req, res) => {
     const users = await User.find({});
     res.send(users);
   } catch (e) {
-    console.log(e);
     res.status(500).send(`Erreur : ${e}`);
   }
 });
@@ -85,12 +82,10 @@ router.delete("/api/users/:id", async (req, res) => {
     const id = req.params.id;
     const password = req.body.password;
 
-    console.log(req.params.id, req.body.password, "id, password");
 
     if (!id || !password) return res.status(400).send("Requête invalide");
 
     let user = await User.findOne({ _id: id });
-    console.log(user);
 
     if (!user) {
       return res.status(404).send("Le compte n'existe pas (ou plus)");
@@ -106,7 +101,6 @@ router.delete("/api/users/:id", async (req, res) => {
 
     return res.status(200).send({ message: "Compte supprimé avec succès" });
   } catch (e) {
-    console.log(e);
     return res.status(500).send(`Erreur : ${e}`);
   }
 });
@@ -127,7 +121,6 @@ router.patch("/api/users/:id", async (req, res) => {
     else
         return res.status(200).send({ message: "Compte modifié avec succès" });
   } catch (e) {
-    console.log(e.response.data.error);
   }
 });
 
@@ -210,7 +203,6 @@ router.post("/api/users/:id", async (req, res) => {
     }
 
   } catch (e) {
-    console.log(e);
   }
 });
 
@@ -243,7 +235,6 @@ router.patch("/api/users/:id/reset-email", async (req, res) => {
 
     return res.status(200).send({ message: "Email modifiée avec succès" });
   } catch (e) {
-    console.log(e);
     return res.status(500).send({ message: "Erreur" });
   }
 });
@@ -276,7 +267,6 @@ router.patch("/api/users/:id/reset-password", async (req, res) => {
 
     return res.status(200).send({ message: "Mot de passe modifié avec succès" });
   } catch (e) {
-    console.log(e);
     return res.status(500).send({ message: "Erreur" });
   }
 });
@@ -315,7 +305,6 @@ router.post("/api/users/:id/image", async (req, res) => {
       await User.findOne({_id : id})
       await Promise.all([
         cloudinary.uploader.destroy(imageId, (err, result) => {
-          console.log(err, result);
         }),
         User.findOneAndUpdate({_id : id}, {$unset : {"avatar" : null}}, {new : true})
       ])
@@ -328,6 +317,33 @@ router.post("/api/users/:id/image", async (req, res) => {
     await User.findOneAndUpdate({_id : id}, {$set : {"avatar" : profilePicture}}, {new : true})
     res.status(200).send({message : "L'image a été modifiée avec succès"})
   }
+})
+
+router.patch("/api/user/roles", async (req, res) => {
+
+  const {userUpdates} = req.body
+  const ids = userUpdates.map((update) => update.id);
+  const {id, newRole} = userUpdates[0]
+
+  if(!id || !newRole)
+    return res.status(400).send({message : "Requête invalide"})
+
+  try {
+    const users = await User.find({ _id: { $in: ids } });
+    const role = await Role.findOne({
+      name : newRole
+    })
+
+    if(!users)
+      return res.status(404).send({message : "Aucun utilisateur trouvé"})
+
+    await User.updateMany({_id : {$in : ids}}, {$set : {roles : role}})
+    res.status(200).send({message : "Rôles modifiés avec succès"})
+  }
+  catch(e) {
+    console.error(e)
+  }
+
 })
 
 module.exports = router;

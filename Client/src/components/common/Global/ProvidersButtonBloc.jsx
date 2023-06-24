@@ -21,7 +21,6 @@ export const ProvidersButtonsBloc = () => {
             signIn(provider)
         }
         catch (e) {
-            console.log(e);
         }
     }
 
@@ -57,7 +56,6 @@ export const ProvidersButtonsBlocSecondary = () => {
             signIn(provider)
         }
         catch (e) {
-            console.log(e);
         }
     }
 

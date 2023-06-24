@@ -26,7 +26,6 @@ const InscriptionForm = () => {
   const router = useRouter();
 
   const onSubmit = async data => {
-    console.log(data);
     await resolver.validate(data)
 
     try {

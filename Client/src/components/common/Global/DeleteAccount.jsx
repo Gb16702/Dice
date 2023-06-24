@@ -20,12 +20,9 @@ const DeleteAccount = () => {
 
   const handleResponse = response => {
     if(response.ok) {
-      console.log(response);
       router.refresh()
       signOut()
     }
-    else
-      console.log(response.error.message);
   }
 
   const handleClick = () => {
@@ -46,16 +43,11 @@ const DeleteAccount = () => {
     await response.json()
     if(response.ok) {
       handleResponse(response)
-      
-    }
-    else {
-      console.log(response.error.message);
     }
   }
 
   const handleChange = e => {
     setPassword(e.target.value)
-    console.log(password);
   }
 
   return (

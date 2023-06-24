@@ -4,8 +4,6 @@ import Image from "next/image";
 
 const AsideUserSection = ({ session }) => {
 
-  console.log(session);
-
   return (
     <>
       <div className="absolute bottom-0 left-0 bg-[#222222] w-full h-[95px] flex p-1">

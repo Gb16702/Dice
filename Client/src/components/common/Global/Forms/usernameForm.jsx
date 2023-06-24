@@ -60,7 +60,6 @@ const UsernameForm = () => {
       return setFormState("error");
     }
     await response.json();
-    console.log(response);
 
     if (response.ok) {
       setFormState("success");
@@ -76,7 +75,6 @@ const UsernameForm = () => {
         router.refresh();
       }
     } else {
-      console.log(response);
       setFormState("error");
     }
   };
