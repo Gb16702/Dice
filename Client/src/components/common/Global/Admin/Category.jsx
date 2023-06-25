@@ -17,6 +17,9 @@ const Category = () => {
     if(getPathname() === "status") {
         category = "Tous les statuts"
     }
+    if(getPathname() === "tags") {
+        category = "Tous les tags"
+    }
 
     return  <h3 className="text-zinc-100 text-[18px] tracking-tight ">
                 {category}

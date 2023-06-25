@@ -9,13 +9,13 @@ import AddStatus from "./AddStatus";
 import DeleteStatus from "./DeleteStatus";
 import { usePathname } from "next/navigation";
 
-const StatusRow = ({ state, slug, createdAt, onSelect}) => {
+const ArticlesRow = ({ name, slug, createdAt, onSelect}) => {
   const [isSelected, setIsSelected] = useState(false);
 
 
   const handleSelect = () => {
     setIsSelected(!isSelected)
-    onSelect(state, !isSelected)
+    onSelect(name, !isSelected)
   }
 
   return (
@@ -23,7 +23,7 @@ const StatusRow = ({ state, slug, createdAt, onSelect}) => {
       <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
         <div className="flex items-center justify-start gap-x-5">
           <div className="flex flex-col">
-            <h3>{state}</h3>
+            <h3>{name}</h3>
           </div>
         </div>
       </th>
@@ -41,18 +41,18 @@ const StatusRow = ({ state, slug, createdAt, onSelect}) => {
   );
 };
 
-const AllStatus = ({ head, status }) => {
+const AllArticles = ({ head, articles, session, tags }) => {
 
   const [selectedStatus, isSelectedStatus] = useState([])
 
   const pathname = usePathname()
   const lastSection = pathname.split("/administration/")[1]
 
-  const handleSelect = (state, isSelected) => {
+  const handleSelect = (name, isSelected) => {
     if(isSelected)
-      isSelectedStatus([...selectedStatus, state])
+      isSelectedStatus([...selectedStatus, name])
     else
-      isSelectedStatus(selectedStatus.filter(s => s !== state))
+      isSelectedStatus(selectedStatus.filter(s => s !== name))
   }
 
   return (
@@ -76,23 +76,22 @@ const AllStatus = ({ head, status }) => {
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-adminBgAlt text-zinc-100">
-              {status
-                .sort((a, b) => (a.state > b.state ? 1 : -1))
-                .map((s, index) => (
-                  <StatusRow key={index} state={s.state} slug={s.slug} createdAt={s.createdAt} status={status} onSelect={handleSelect} />
+            {/* <tbody className="bg-adminBgAlt text-zinc-100">
+              {articles && articles
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((t, index) => (
+                  <TagsRow key={index} name={t.name} slug={t.slug} createdAt={t.createdAt} status={status} onSelect={handleSelect} />
                 ))}
-            </tbody>
+            </tbody> */}
           </table>
         </section>
         <div className="w-full flex justify-end gap-x-2">
           <DeleteStatus selectedStatus={selectedStatus} />
-          <AddStatus pathname={lastSection} />
-          
+          <AddStatus pathname={lastSection} session={session} tags={tags}  />
         </div>
       </>
     </>
   );
 };
 
-export default AllStatus;
+export default AllArticles;

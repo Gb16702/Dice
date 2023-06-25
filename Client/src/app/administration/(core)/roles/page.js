@@ -1,6 +1,7 @@
 import AllRoles from "@/src/components/common/Global/Admin/AllRoles";
 import DashboardCards from "@/src/components/common/Global/Admin/DashboardCards";
 import { decodeSession } from "@/src/lib/decodeSession";
+import writeHead from "@/src/lib/writeHead";
 
 const dashboard = async () => {
 
@@ -16,7 +17,7 @@ const dashboard = async () => {
       const {roles} = await rolesResponse.json();
       const {users} = await usersResponse.json();
 
-      const head = ["Rôle", "Grade", "Créé il y a", "Membres"]
+      const head = writeHead();
 
     return  <>
                 <div>

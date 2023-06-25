@@ -1,3 +1,4 @@
+import AllCategories from "@/src/components/common/Global/Admin/AllCategories";
 import Category from "@/src/components/common/Global/Admin/Category";
 import DashboardCards from "@/src/components/common/Global/Admin/DashboardCards";
 import LastRegistered from "@/src/components/common/Global/Admin/LastRegistered";
@@ -7,11 +8,13 @@ const dashboard = async () => {
     const response = await fetch("http://localhost:8000/api/admin/users", {
         cache: "no-store"
     })
-    const data = await response.json()
-    const sortedDataByData = data.users.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt)
-    }).slice(0, 5)
 
+    const categoriesResponse = await fetch("http://localhost:8000/api/categories", {
+        cache: "no-store"
+    })
+
+    const data = await response.json()
+    const {categories} = await categoriesResponse.json()
 
 
     const head = writeHead()
@@ -24,7 +27,7 @@ const dashboard = async () => {
                     <div className="h-[70px] flex items-end">
                         <Category />
                     </div>
-                    <LastRegistered users={sortedDataByData} head={head} />
+                    <AllCategories head={head} categories={categories}/>
                 </div>
             </>
 }

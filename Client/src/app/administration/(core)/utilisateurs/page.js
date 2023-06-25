@@ -2,6 +2,7 @@ import AllUsers from "@/src/components/common/Global/Admin/AllUsers";
 import DashboardCards from "@/src/components/common/Global/Admin/DashboardCards";
 import Searchbar from "@/src/components/common/Global/Admin/Searchbar";
 import { search } from "@/src/lib/search";
+import writeHead from "@/src/lib/writeHead";
 
 const page = async ({searchParams}) => {
 
@@ -11,7 +12,7 @@ const page = async ({searchParams}) => {
     })
     const data = await response.json()
 
-    const head = ["Utilisateur", "Adresse mail", "Inscrit il y a", "Actions"]
+    const head = writeHead()
 
     return (
       <>

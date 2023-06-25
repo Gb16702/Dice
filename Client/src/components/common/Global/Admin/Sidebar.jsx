@@ -1,21 +1,16 @@
 "use client"
 
-import {useState} from "react";
-import {useSession} from "next-auth/react";
-import SidebarLink from "./SideBarLink";
-import Locker from "../Icons/HeroIcons/Locker";
 import AdminTag from "./AdminTag";
 import Home from "../Icons/HeroIcons/admin/Home";
 import User from "../Icons/HeroIcons/admin/User";
 import Role from "../Icons/HeroIcons/admin/Role";
 import Status from "../Icons/HeroIcons/admin/Status";
 import Back from "../Icons/HeroIcons/admin/Back";
+import Tag from "../Icons/HeroIcons/admin/Tag";
+import Category from "../Icons/HeroIcons/admin/Category";
+import Article from "../Icons/HeroIcons/admin/Article";
 
 const Sidebar = ({ children }) => {
-    const [isOpen, setIsOpen] = useState(true);
-
-    const {data: session} = useSession();
-
     const defaultIconClassName = "w-6 h-6 stroke-white"
 
     return (
@@ -34,6 +29,15 @@ const Sidebar = ({ children }) => {
         </AdminTag>
         <AdminTag linkTo="/administration/status" text="Status">
           <Status className={`${defaultIconClassName}`} />
+        </AdminTag>
+        <AdminTag linkTo="/administration/articles" text="Articles">
+          <Article className={`${defaultIconClassName}`} />
+        </AdminTag>
+        <AdminTag linkTo="/administration/categories" text="Catégories">
+          <Category className={`${defaultIconClassName}`} />
+        </AdminTag>
+        <AdminTag linkTo="/administration/tags" text="Tags">
+          <Tag className={`${defaultIconClassName}`} />
         </AdminTag>
         <AdminTag linkTo="/" text="Retour au site">
           <Back className={`${defaultIconClassName}`} />

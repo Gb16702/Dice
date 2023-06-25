@@ -19,7 +19,6 @@ const ProfilePictureForm = () => {
   const router = useRouter();
   const [showSelectedFile, setShowSelectedFile] = useState(true);
 
-
   const animationContainer = useRef(null);
 
   useEffect(() => {
@@ -40,6 +39,7 @@ const ProfilePictureForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormState("submitting");
+
     const target = e.currentTarget;
     const fileInput = Array.from(target.elements).find(
       (e) => e.id === "fileInput"

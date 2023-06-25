@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const articleSchema = new mongoose.Schema({
-    title : {
+const gameSchema = new mongoose.Schema({
+    name : {
         type : String,
         required : true,
         unique : true,
@@ -14,27 +14,21 @@ const articleSchema = new mongoose.Schema({
         trim: true,
         index: true
     },
-    content : {
+    description : {
         type : String,
         required : true
     },
-    author : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User",
+    image : {
+        type : String,
         required : true
     },
     tags : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : "Tags",
         required : true
-    }],
-    picture : {
-        type : String,
-        required : true
-    }
-
+    }]
 }, { timestamps: true })
 
-const Article = mongoose.models.Article || mongoose.model("Article", articleSchema)
+const Game = mongoose.models.Game || mongoose.model("Game", gameSchema)
 
-module.exports = Article;
+module.exports = Game;
